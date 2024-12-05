@@ -25,4 +25,7 @@ phases:
     commands:
       - echo "Build was successful!"
 
-
+artifacts:
+  files:
+    - '**/*'
+  base-directory: ../python-app
