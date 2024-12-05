@@ -23,6 +23,6 @@ phases:
 
   post_build:
     commands:
-      -echo "Build was successful!"
+      - echo "Build was successful!"
 
 
