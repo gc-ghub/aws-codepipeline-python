@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
+    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
+    DOCKER_REGISTRY_URL: /myapp/docker-registry/url
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+
+  pre-build:
+    commands:
+      pip install -r requirements.txt
+
+  build: 
+    commands:
+      - echo "Build Docker Image"
+      - docker login -u="${DOCKER_REGISTRY_USERNAME}" -p="${DOCKER_REGISTRY_PASSWORD}"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-app:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/python-app:latest
+
+  post-build:
+    commands:
+      -echo "Build was successful!"
+
+
